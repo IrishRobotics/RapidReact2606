@@ -101,4 +101,18 @@ public final class Constants {
         //Sim Position
         public static final org.photonvision.SimVisionTarget farTarget = new SimVisionTarget(farTargetPose,targetHeightAboveGround, targetWidth, targetHeight);
     }
+
+    public static final class ShooterConstants{
+        public static final int shooterCan = 9;
+        public static final double speed = 1.0;
+    }
+
+    public static final class IndexerConstants{
+        public static final int indexerCan = 5;
+        public static final double indexerSpeed=1.0;
+        public static final double rotationPerPuslations=90;
+        public static final int[] IndexerEncoderPorts = new int[] { 0, 1 }; //DIO ports
+        public static final boolean isIndexerEncoderReversed = false;
+
+    }
 }
