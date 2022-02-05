@@ -14,18 +14,53 @@ import frc.robot.Constants.ShooterConstants;
 public class ShooterSubsystem extends SubsystemBase {
   CANSparkMax shooter = new CANSparkMax(ShooterConstants.shooterCan, MotorType.kBrushless);
   
-  /** Creates a new ExampleSubsystem. */
+  private MODE currentMode = MODE.OFF;
+
+  private MOTOR motor;
+  private double curSpeed;
+
+  public enum MODE {
+    OFF,SHOOT, COAST
+  }
+  public enum MOTOR{
+    OFF,ON
+  }
   public ShooterSubsystem() {
     shooter.setIdleMode(IdleMode.kCoast);
   }
 
-  public void setSpeed(double speed){
-    shooter.set(speed);
+  public void setMode(MODE mode){
+    currentMode = mode;
+  }
+  public MODE getMode(){
+    return currentMode;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    switch (currentMode) {
+      case OFF:
+      motor=MOTOR.OFF;
+      break;
+      case SHOOT:
+      motor= MOTOR.ON;
+      curSpeed = ShooterConstants.shootSpeed;
+      break;
+      case COAST:
+      motor=MOTOR.ON;
+      curSpeed = ShooterConstants.coastSpeed;
+      break;
+      default:
+      motor= MOTOR.OFF;
+      break;
+    }
+    if(motor == MOTOR.OFF){
+      shooter.set(0);
+    }
+    else{
+      shooter.set(curSpeed);
+    }
   }
 
   @Override
