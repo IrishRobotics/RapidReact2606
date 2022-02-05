@@ -2,11 +2,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.IndexerSubsystem.MODE;
 
 public class SetIndexerMode extends CommandBase {
     private final IndexerSubsystem m_subsystem;
-    protected  IndexerSubsystem.MODE valueToSet = IndexerSubsystem.MODE.INTAKE;
+    protected  IndexerSubsystem.MODE currentMode = IndexerSubsystem.MODE.INTAKE;
 
     public SetIndexerMode(IndexerSubsystem subsystem) {
         m_subsystem = subsystem;
@@ -19,9 +18,13 @@ public class SetIndexerMode extends CommandBase {
      * @param subsystem, Indexer Subsystem
      * @param mode, sets mode OFF, INTAKE, SHOOT; INTAKE default
      */
-    public SetIndexerMode(IndexerSubsystem subsystem, MODE mode) {
+    public SetIndexerMode(IndexerSubsystem subsystem, IndexerSubsystem.MODE mode) {
         m_subsystem = subsystem;
-        valueToSet = mode;
+        if(subsystem.getMode() == mode){
+            currentMode = IndexerSubsystem.MODE.OFF;
+        }else{
+            currentMode = mode;
+        }
         addRequirements(subsystem);        
     }
 
@@ -32,7 +35,7 @@ public class SetIndexerMode extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_subsystem.setMode(valueToSet);
+        m_subsystem.setMode(currentMode);
     }
 
     // Called once the command ends or is interrupted.

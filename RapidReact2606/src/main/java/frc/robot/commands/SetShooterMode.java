@@ -2,11 +2,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ShooterSubsystem.MODE;
 
 public class SetShooterMode extends CommandBase {
     private final ShooterSubsystem m_subsystem;
-    protected ShooterSubsystem.MODE currentMode = MODE.OFF;
+    protected ShooterSubsystem.MODE currentMode = ShooterSubsystem.MODE.OFF;
 
     public SetShooterMode(ShooterSubsystem subsystem){
         m_subsystem = subsystem;
@@ -19,9 +18,10 @@ public class SetShooterMode extends CommandBase {
      * @param subsystem, Shooter Subsystem
      * @param mode, sets mode OFF, COAST, SHOOT; OFF default
      */
-    public SetShooterMode(ShooterSubsystem subsystem, MODE mode){
+    public SetShooterMode(ShooterSubsystem subsystem, ShooterSubsystem.MODE mode){
         m_subsystem = subsystem;
         currentMode = mode;
+        
         addRequirements(subsystem);
     }
     // Called when the command is initially scheduled.

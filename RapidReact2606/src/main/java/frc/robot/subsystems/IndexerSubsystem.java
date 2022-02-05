@@ -4,12 +4,17 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.simulation.PWMSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Constants.IndexerConstants;
 
 public class IndexerSubsystem extends SubsystemBase {
     //May be replaced with a spark max
     WPI_TalonSRX indexerWheel = new WPI_TalonSRX(IndexerConstants.motorControllerPort);
+
+    final PWMSim indexerSim = new PWMSim(IndexerConstants.motorControllerPort);
+
 
     // Intake Transitions
     // 1,0,0 => 0,1,0 1 => 2
@@ -45,9 +50,10 @@ public class IndexerSubsystem extends SubsystemBase {
         this.currentMode = mode;
     }
 
-    public MODE getMode() {
+    public IndexerSubsystem.MODE getMode() {
         return this.currentMode;
     }
+
 
     protected int getState() {
         int state = 0;
@@ -77,10 +83,13 @@ public class IndexerSubsystem extends SubsystemBase {
 
         if (motor == MOTOR.ON) {
             indexerWheel.set(1.0);
+            if(Robot.isSimulation())
+                indexerSim.setSpeed(1.0);
         } else {
             indexerWheel.set(0);
+            if(Robot.isSimulation())
+               indexerSim.setSpeed(0);
         }
-
     }
 
     private MOTOR getShootValue() {

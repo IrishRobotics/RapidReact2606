@@ -8,11 +8,17 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.IOConstants;
+import frc.robot.commands.SetIndexerMode;
+import frc.robot.commands.SetShooterMode;
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IndexerSubsystem.MODE;
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // import edu.wpi.first.wpilibj.GenericHID;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,7 +30,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem robotDrive = new DriveSubsystem();
   private GenericHID driveController = IOConstants.isXbox ? new XboxController(IOConstants.DriverControllerPort) : new Joystick(IOConstants.DriverControllerPort); 
-    
+  private IndexerSubsystem indexer = new IndexerSubsystem();
+  private ShooterSubsystem shooter = new ShooterSubsystem();  
+
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     //Drive Controller
@@ -38,6 +47,15 @@ public class RobotContainer {
               -(Math.abs(driveController.getRawAxis(1)) >0.1? driveController.getRawAxis(1):0.0),
               -(Math.abs(driveController.getRawAxis(0)) >0.1? driveController.getRawAxis(0):0.0)),
                robotDrive));
+
+    indexer.setDefaultCommand(new RunCommand(
+      () ->
+        indexer.setMode(IndexerSubsystem.MODE.OFF),indexer
+      ));
+    shooter.setDefaultCommand(new RunCommand(
+        () ->
+          shooter.setMode(ShooterSubsystem.MODE.OFF),shooter
+        ));
   }
 
   /**
@@ -47,7 +65,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
+    final JoystickButton indexButton = new JoystickButton(driveController, IOConstants.indexButton);
+    indexButton.toggleWhenPressed(new SetIndexerMode(indexer, IndexerSubsystem.MODE.INTAKE));
+    final JoystickButton shooterButton = new JoystickButton(driveController, IOConstants.shooterButton);
+    shooterButton.toggleWhenPressed(new SetShooterMode(shooter, ShooterSubsystem.MODE.SHOOT));
   }
 
   /**

@@ -78,6 +78,8 @@ public final class Constants {
     public static final class IOConstants{
         public static final int DriverControllerPort = 0; 
         public static final boolean isXbox = true;
+        public static final int indexButton = 4;
+        public static final int shooterButton = 3;
     }
     public static final class VisionConstants{
         //Target Position
@@ -102,9 +104,9 @@ public final class Constants {
         public static final org.photonvision.SimVisionTarget farTarget = new SimVisionTarget(farTargetPose,targetHeightAboveGround, targetWidth, targetHeight);
     }
     public static final class IndexerConstants{
-        public static final int firstDIO = 0;
-        public static final int middleDIO = 1;
-        public static final int lastDIO = 2;
+        public static final int firstDIO = 11;
+        public static final int middleDIO = 12;
+        public static final int lastDIO = 13;
         public static final int motorControllerPort = 23;
     }
 

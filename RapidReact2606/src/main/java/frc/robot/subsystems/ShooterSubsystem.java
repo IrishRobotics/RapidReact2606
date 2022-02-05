@@ -8,12 +8,17 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.hal.SimDevice;
+import edu.wpi.first.hal.SimEnum;
+import edu.wpi.first.wpilibj.simulation.PWMSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
   CANSparkMax shooter = new CANSparkMax(ShooterConstants.shooterCan, MotorType.kBrushless);
   
+  private final PWMSim shooterSim = new PWMSim(ShooterConstants.shooterCan); // please ignore that this is not can, thank you
+
   private MODE currentMode = MODE.OFF;
 
   private MOTOR motor;
@@ -32,7 +37,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setMode(MODE mode){
     currentMode = mode;
   }
-  public MODE getMode(){
+  public ShooterSubsystem.MODE getMode(){
     return currentMode;
   }
 
@@ -66,5 +71,7 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+    shooterSim.setSpeed(curSpeed);
+    // System.out.println(currentMode);
   }
 }
