@@ -4,19 +4,24 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IndexerSubsystem.MODE;
 
-public class SetIndexerIntakeMode extends CommandBase {
+public class SetIndexerMode extends CommandBase {
     private final IndexerSubsystem m_subsystem;
     protected  IndexerSubsystem.MODE valueToSet = IndexerSubsystem.MODE.INTAKE;
 
-    public SetIndexerIntakeMode(IndexerSubsystem subsystem) {
+    public SetIndexerMode(IndexerSubsystem subsystem) {
         m_subsystem = subsystem;
 
         addRequirements(subsystem);
     }
 
-    public SetIndexerIntakeMode(IndexerSubsystem subsystem, MODE shoot) {
+    /**
+     * 
+     * @param subsystem, Indexer Subsystem
+     * @param mode, sets mode OFF, INTAKE, SHOOT; INTAKE default
+     */
+    public SetIndexerMode(IndexerSubsystem subsystem, MODE mode) {
         m_subsystem = subsystem;
-        valueToSet = shoot;
+        valueToSet = mode;
         addRequirements(subsystem);        
     }
 

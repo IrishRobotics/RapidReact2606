@@ -101,4 +101,11 @@ public final class Constants {
         //Sim Position
         public static final org.photonvision.SimVisionTarget farTarget = new SimVisionTarget(farTargetPose,targetHeightAboveGround, targetWidth, targetHeight);
     }
+    public static final class IndexerConstants{
+        public static final int firstDIO = 0;
+        public static final int middleDIO = 1;
+        public static final int lastDIO = 2;
+        public static final int motorControllerPort = 23;
+
+    }
 }

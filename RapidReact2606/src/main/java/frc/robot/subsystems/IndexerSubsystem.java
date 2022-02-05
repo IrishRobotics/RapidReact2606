@@ -5,9 +5,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IndexerConstants;
 
 public class IndexerSubsystem extends SubsystemBase {
-    WPI_TalonSRX indexerWheel = new WPI_TalonSRX(23);
+    //May be replaced with a spark max
+    WPI_TalonSRX indexerWheel = new WPI_TalonSRX(IndexerConstants.motorControllerPort);
 
     // Intake Transitions
     // 1,0,0 => 0,1,0 1 => 2
@@ -18,9 +20,9 @@ public class IndexerSubsystem extends SubsystemBase {
     // 0,0,1 => 0,0,0 4 => 0
     // 0,1,0 => 0,0,1 2 => 4
 
-    DigitalInput intake = new DigitalInput(0);
-    DigitalInput ballone = new DigitalInput(1);
-    DigitalInput balltwo = new DigitalInput(2);
+    DigitalInput intake = new DigitalInput(IndexerConstants.firstDIO);
+    DigitalInput ballone = new DigitalInput(IndexerConstants.middleDIO);
+    DigitalInput balltwo = new DigitalInput(IndexerConstants.lastDIO);
 
     private MODE currentMode = MODE.OFF;
 
