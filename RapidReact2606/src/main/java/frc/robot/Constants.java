@@ -7,7 +7,7 @@ package frc.robot;
 import org.photonvision.SimVisionTarget;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation2d;https://github.com/IrishRobotics/RapidReact2606/pull/3/conflict?name=RapidReact2606%252Fsrc%252Fmain%252Fjava%252Ffrc%252Frobot%252FConstants.java&ancestor_oid=329cd5adbacf3549e8f52c0b1cf4f6e02348e585&base_oid=da71f73212f6210932ed1d4dcc45103942df6603&head_oid=323c91226fb3c7896c741bbbca4db8ea925cb2e4
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
@@ -100,5 +100,16 @@ public final class Constants {
         
         //Sim Position
         public static final org.photonvision.SimVisionTarget farTarget = new SimVisionTarget(farTargetPose,targetHeightAboveGround, targetWidth, targetHeight);
+    }
+    public static final class IndexerConstants{
+        public static final int firstDIO = 0;
+        public static final int middleDIO = 1;
+        public static final int lastDIO = 2;
+        public static final int motorControllerPort = 23;
+    }
+
+    public static final class ShooterConstants{
+        public static final int shooterCan = 9;
+        public static final double speed = 1.0;
     }
 }
