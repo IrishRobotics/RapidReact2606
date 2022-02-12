@@ -75,7 +75,7 @@ public class RobotContainer {
     a_button.whileHeld(new SimpleIntakeOn(intakeSystem));
     b_button.whileHeld(new SimpleShooterOn(shooterSubsystem));
     x_button.whileHeld(new SimpleIndexerOn(indexSubsystem));
-  }.
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -84,7 +84,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    // return ExampleCommand;
+    // return ExampleCommand;cdcd
     return null;
   }
 }
