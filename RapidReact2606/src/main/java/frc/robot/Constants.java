@@ -23,10 +23,10 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
     public static final class DriveConstants{
         //Motor Ports for the Drive System
-        public static final int leftMotorCan1  = 0;
-        public static final int leftMotorCan2  = 1;
-        public static final int rightMotorCan1 = 2;
-        public static final int rightMotorCan2 = 3;
+        public static final int leftMotorCan1  = 7;//front
+        public static final int leftMotorCan2  = 5;//back
+        public static final int rightMotorCan1 = 3;//front
+        public static final int rightMotorCan2 = 8;//back
 
         //Encoder Ports and Reverse Cases
         public static final int[] leftEncoderPorts = new int[] { 0, 1 };
@@ -107,12 +107,15 @@ public final class Constants {
         public static final int firstDIO = 11;
         public static final int middleDIO = 12;
         public static final int lastDIO = 13;
-        public static final int motorControllerPort = 23;
+        public static final int motorControllerPort = 9;
     }
 
     public static final class ShooterConstants{
-        public static final int shooterCan = 9;
+        public static final int shooterCan = 12;
         public static final double shootSpeed = 1.0;
         public static final double coastSpeed = 0.1;
+    }
+    public static final class IntakeConstants{
+        public static final int intakeCan = 1;
     }
 }
