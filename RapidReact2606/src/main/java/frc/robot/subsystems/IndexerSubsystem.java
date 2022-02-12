@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IndexerConstants;
 
 public class IndexerSubsystem extends SubsystemBase {
-    //May be replaced with a spark max
+    // May be replaced with a spark max
     WPI_TalonSRX indexerWheel = new WPI_TalonSRX(IndexerConstants.motorControllerPort);
 
     // Intake Transitions
@@ -29,7 +29,7 @@ public class IndexerSubsystem extends SubsystemBase {
     private MOTOR motor;
 
     public enum MODE {
-        OFF, INTAKE, SHOOT
+        OFF, INTAKE, SHOOT, MANUAL, SIMPLE_INTAKE
     }
 
     public enum MOTOR {
@@ -49,6 +49,14 @@ public class IndexerSubsystem extends SubsystemBase {
         return this.currentMode;
     }
 
+    public void setMotor(MOTOR motor) {
+        this.motor = motor;
+    }
+
+    public MOTOR getMotor() {
+        return this.motor;
+    }
+
     protected int getState() {
         int state = 0;
         state += intake.get() ? 1 : 0;
@@ -60,6 +68,10 @@ public class IndexerSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        updateMotors();
+    }
+
+    public void updateMotors() {
         switch (currentMode) {
             case OFF:
                 motor = MOTOR.OFF;
@@ -69,6 +81,10 @@ public class IndexerSubsystem extends SubsystemBase {
                 break;
             case SHOOT:
                 motor = getShootValue();
+                break;
+            case SIMPLE_INTAKE:
+                motor = getSimpleIntakeValue();
+            case MANUAL:
                 break;
             default:
                 motor = MOTOR.OFF;
@@ -80,7 +96,23 @@ public class IndexerSubsystem extends SubsystemBase {
         } else {
             indexerWheel.set(0);
         }
+    }
 
+    private MOTOR getSimpleIntakeValue() {
+        int state = getState();
+        MOTOR retVal = motor;
+
+        if (motor == MOTOR.OFF) {
+            if (state == 0 ) {
+                retVal = MOTOR.ON;
+            }
+        } else {
+            if ( state == 4) {
+                retVal = MOTOR.OFF;
+            }
+        }
+
+        return retVal;
     }
 
     private MOTOR getShootValue() {
@@ -94,7 +126,7 @@ public class IndexerSubsystem extends SubsystemBase {
         } else {
             if (state == 0 || state == 2 || state == 6 || state == 5) {
                 retVal = MOTOR.OFF;
-                //do we flip the mode to off and wait for the next mode flip to shoot?
+                // do we flip the mode to off and wait for the next mode flip to shoot?
                 setMode(MODE.OFF);
             }
         }

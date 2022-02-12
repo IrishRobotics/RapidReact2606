@@ -4,21 +4,21 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.IndexerSubsystyem;
+import frc.robot.subsystems.IndexerSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class SimpleShootBallCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final IndexerSubsystyem m_subsystem;
+  private IndexerSubsystem m_subsystem;
 
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public SimpleShootBallCommand(IndexerSubsystyem subsystem) {
+  public SimpleShootBallCommand(IndexerSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
