@@ -92,7 +92,7 @@ public class IndexerSubsystem extends SubsystemBase {
         }
 
         if (motor == MOTOR.ON) {
-            indexerWheel.set(1.0);
+            indexerWheel.set(-1.0);
         } else {
             indexerWheel.set(0);
         }

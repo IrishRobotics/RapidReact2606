@@ -73,7 +73,7 @@ public class RobotContainer {
     y_button = new JoystickButton(driveController, XboxController.Button.kY.value);
 
     a_button.whileHeld(new SimpleIntakeOn(intakeSystem));
-    b_button.whileHeld(new SimpleShooterOn(shooterSubsystem));
+    y_button.whileHeld(new SimpleShooterOn(shooterSubsystem));
     x_button.whileHeld(new SimpleIndexerOn(indexSubsystem));
   }
 

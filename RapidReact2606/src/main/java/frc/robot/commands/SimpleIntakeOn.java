@@ -16,12 +16,13 @@ public class SimpleIntakeOn extends CommandBase {
       // Called when the command is initially scheduled.
       @Override
       public void initialize() {
+        m_subsystem.setMode(MOTOR_STATUS.ON);
+        m_subsystem.updateMotors();
       }
     
       // Called every time the scheduler runs while the command is scheduled.
       @Override
       public void execute() {
-        m_subsystem.setMode(MOTOR_STATUS.ON);
         m_subsystem.updateMotors();
       }
     
@@ -30,13 +31,13 @@ public class SimpleIntakeOn extends CommandBase {
       public void end(boolean interrupted) {
           m_subsystem.setMode(MOTOR_STATUS.OFF);
           m_subsystem.updateMotors();
-      }
+        }
 
 
     
       // Returns true when the command should end.
       @Override
       public boolean isFinished() {
-        return true;
+        return false;
       }    
 }
