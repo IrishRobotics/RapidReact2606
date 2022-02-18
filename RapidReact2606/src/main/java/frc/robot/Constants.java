@@ -29,8 +29,8 @@ public final class Constants {
         public static final int rightMotorCan2 = 3;
 
         //Encoder Ports and Reverse Cases
-        public static final int[] leftEncoderPorts = new int[] { 0, 1 };
-        public static final int[] rightEncoderPorts = new int[] { 2, 3 };
+        public static final int[] leftEncoderPorts = new int[] { 4, 5 };
+        public static final int[] rightEncoderPorts = new int[] { 6, 7 };
         public static final boolean isLeftEncoderReversed = false;
         public static final boolean isRightEncoderReversed = true;
         public static final int encoderResolution = -4096;
