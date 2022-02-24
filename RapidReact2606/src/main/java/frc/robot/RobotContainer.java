@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.IOConstants;
+import frc.robot.commands.AimToBall;
 import frc.robot.commands.SimpleIndexerOn;
 import frc.robot.commands.SimpleIntakeOn;
 import frc.robot.commands.SimpleShooterOn;
@@ -44,6 +45,7 @@ public class RobotContainer {
   private JoystickButton b_button = null;
   private JoystickButton x_button = null;
   private JoystickButton y_button = null;
+  private JoystickButton left_bumper;
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -72,9 +74,13 @@ public class RobotContainer {
     x_button = new JoystickButton(driveController, XboxController.Button.kX.value);
     y_button = new JoystickButton(driveController, XboxController.Button.kY.value);
 
+    left_bumper = new JoystickButton(driveController, XboxController.Button.kY.value);
+
     a_button.whileHeld(new SimpleIntakeOn(intakeSystem));
     y_button.whileHeld(new SimpleShooterOn(shooterSubsystem));
     x_button.whileHeld(new SimpleIndexerOn(indexSubsystem));
+
+    left_bumper.whileHeld(new AimToBall(robotDrive));
   }
 
   /**
