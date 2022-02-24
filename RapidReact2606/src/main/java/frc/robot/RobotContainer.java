@@ -6,12 +6,17 @@ package frc.robot;
 
 import java.sql.Driver;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 import frc.robot.Constants.IOConstants;
+import frc.robot.commands.AutoDriveBack;
 import frc.robot.commands.SimpleIndexerOn;
 import frc.robot.commands.SimpleIntakeOn;
+import frc.robot.commands.SimpleIntakeOnVar;
 import frc.robot.commands.SimpleShooterOn;
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -23,6 +28,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 // import edu.wpi.first.wpilibj.GenericHID;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -44,6 +52,7 @@ public class RobotContainer {
   private JoystickButton b_button = null;
   private JoystickButton x_button = null;
   private JoystickButton y_button = null;
+  private Axis r_trigger;
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -51,13 +60,20 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    robotDrive.setDefaultCommand(
-      new RunCommand(
-        () ->
+    robotDrive.setDefaultCommand( 
+      
+      (new RunCommand(
+        () -> 
              robotDrive.drive(
               -(Math.abs(driveController.getRawAxis(1)) >0.1? driveController.getRawAxis(1):0.0),
               -(Math.abs(driveController.getRawAxis(0)) >0.1? driveController.getRawAxis(0):0.0)),
-               robotDrive));
+               robotDrive))
+               
+               //.alongWith(new SimpleIntakeOnVar(intakeSystem, (driveController.getRawAxis(3)))
+    
+    
+    );
+               //new SimpleIntakeOnVar(intakeSystem, (driveController.getRawAxis(3)))
   }
 
   /**
@@ -71,7 +87,6 @@ public class RobotContainer {
     b_button = new JoystickButton(driveController, XboxController.Button.kB.value);
     x_button = new JoystickButton(driveController, XboxController.Button.kX.value);
     y_button = new JoystickButton(driveController, XboxController.Button.kY.value);
-
     a_button.whileHeld(new SimpleIntakeOn(intakeSystem));
     y_button.whileHeld(new SimpleShooterOn(shooterSubsystem));
     x_button.whileHeld(new SimpleIndexerOn(indexSubsystem));
@@ -85,6 +100,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     // return ExampleCommand;cdcd
-    return null;
+    Command auto = new AutoDriveBack(robotDrive, 0.5);
+    return auto.andThen(() -> robotDrive.stop());
   }
 }

@@ -38,5 +38,12 @@ public class IntakeSubsystem extends SubsystemBase {
             intakeMotor.set(-0.8);
         }
     }
+    public void updateMotors(double sped){
+        if (motorState == MOTOR_STATUS.OFF) {
+            intakeMotor.set(0.0);
+        } else {
+            intakeMotor.set(-sped);
+        }
+    }
 
 }
