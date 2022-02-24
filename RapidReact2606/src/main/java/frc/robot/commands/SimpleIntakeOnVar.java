@@ -1,13 +1,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ShooterSubsystem.MOTOR_STATUS;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.MOTOR_STATUS;
 
-public class SimpleShooterOn extends CommandBase {
-    private ShooterSubsystem m_subsystem;
+public class SimpleIntakeOnVar extends CommandBase {
+    private IntakeSubsystem m_subsystem;
 
-    public SimpleShooterOn(ShooterSubsystem subsystem) {
+    public SimpleIntakeOnVar(IntakeSubsystem subsystem) {
         m_subsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
@@ -17,21 +17,21 @@ public class SimpleShooterOn extends CommandBase {
       @Override
       public void initialize() {
         m_subsystem.setMode(MOTOR_STATUS.ON);
-        m_subsystem.updateMotorsVel();
+        m_subsystem.updateMotors();
       }
     
       // Called every time the scheduler runs while the command is scheduled.
       @Override
       public void execute() {
-        m_subsystem.updateMotorsVel();
+        m_subsystem.updateMotors();
       }
     
       // Called once the command ends or is interrupted.
       @Override
       public void end(boolean interrupted) {
           m_subsystem.setMode(MOTOR_STATUS.OFF);
-          m_subsystem.updateMotorsVel();
-      }
+          m_subsystem.updateMotors();
+        }
 
 
     

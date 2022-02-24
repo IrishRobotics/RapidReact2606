@@ -1,6 +1,11 @@
 {
   "HALProvider": {
     "Other Devices": {
+      "AnalogGyro[0]": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon SRX[2]": {
         "header": {
           "open": true
@@ -24,19 +29,41 @@
       "/LiveWindow/DriveSubsystem": "Subsystem",
       "/LiveWindow/ExampleSubsystem": "Subsystem",
       "/LiveWindow/IndexerSubsystem": "Subsystem",
+      "/LiveWindow/IntakeSubsystem": "Subsystem",
+      "/LiveWindow/ShooterSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/AnalogGyro[0]": "Gyro",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/DigitalInput[10]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[11]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[12]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[13]": "Digital Input",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Talon SRX [1]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [9]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Victor SPX [5]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Victor SPX [8]": "Motor Controller",
       "/SmartDashboard/Field": "Field2d"
     },
     "windows": {
       "/LiveWindow/DriveSubsystem": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/IndexerSubsystem": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/IntakeSubsystem": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/ShooterSubsystem": {
         "window": {
           "visible": true
         }

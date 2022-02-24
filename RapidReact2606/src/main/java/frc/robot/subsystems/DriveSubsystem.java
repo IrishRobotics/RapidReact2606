@@ -410,4 +410,7 @@ public class DriveSubsystem extends SubsystemBase {
         }
 
     }
+    public Object stop() {
+        return null;
+      }
 }
