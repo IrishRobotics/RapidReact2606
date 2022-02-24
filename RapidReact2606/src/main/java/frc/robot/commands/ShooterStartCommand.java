@@ -34,7 +34,7 @@ public class ShooterStartCommand extends CommandBase {
   @Override
   public void execute() {
     m_subsystem.setMode(MOTOR_STATUS.ON);
-    m_subsystem.updateMotors();
+    m_subsystem.updateMotorsVel();
   }
 
   // Called once the command ends or is interrupted.

@@ -17,20 +17,20 @@ public class SimpleShooterOn extends CommandBase {
       @Override
       public void initialize() {
         m_subsystem.setMode(MOTOR_STATUS.ON);
-        m_subsystem.updateMotors();
+        m_subsystem.updateMotorsVel();
       }
     
       // Called every time the scheduler runs while the command is scheduled.
       @Override
       public void execute() {
-        m_subsystem.updateMotors();
+        m_subsystem.updateMotorsVel();
       }
     
       // Called once the command ends or is interrupted.
       @Override
       public void end(boolean interrupted) {
           m_subsystem.setMode(MOTOR_STATUS.OFF);
-          m_subsystem.updateMotors();
+          m_subsystem.updateMotorsVel();
       }
 
 
