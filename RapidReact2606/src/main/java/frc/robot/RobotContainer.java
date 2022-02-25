@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import frc.robot.Constants.IOConstants;
 import frc.robot.commands.AutoDriveBack;
+import frc.robot.commands.OneBallAuto;
 import frc.robot.commands.SimpleIndexerOn;
 import frc.robot.commands.SimpleIntakeOn;
 import frc.robot.commands.SimpleIntakeOnVar;
@@ -52,7 +53,7 @@ public class RobotContainer {
   private JoystickButton b_button = null;
   private JoystickButton x_button = null;
   private JoystickButton y_button = null;
-  private Axis r_trigger;
+  private JoystickButton r_trigger = null;
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -90,6 +91,8 @@ public class RobotContainer {
     a_button.whileHeld(new SimpleIntakeOn(intakeSystem));
     y_button.toggleWhenPressed(new SimpleShooterOn(shooterSubsystem));
     x_button.whileHeld(new SimpleIndexerOn(indexSubsystem));
+    
+      
   }
 
   /**
@@ -100,7 +103,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     // return ExampleCommand;cdcd
-    Command auto = new AutoDriveBack(robotDrive, 0.5);
-    return auto.andThen(() -> robotDrive.stop());
+    return new OneBallAuto(shooterSubsystem, indexSubsystem);
   }
 }
