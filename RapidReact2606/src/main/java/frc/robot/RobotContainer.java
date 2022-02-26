@@ -93,7 +93,7 @@ public class RobotContainer {
     a_button.whileHeld(new SimpleIntakeOn(intakeSystem));
     x_button.whenHeld(new SimpleIndexerOn(indexSubsystem));
     y_button.toggleWhenPressed(new SimpleShooterOn(shooterSubsystem));
-    left_bumper.whileHeld(new AimToBall(robotDrive));
+    left_bumper.whileHeld(new AimToBall(robotDrive,driveController));
   }
 
   /**

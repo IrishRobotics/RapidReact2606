@@ -7,42 +7,46 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import org.photonvision.PhotonUtils;
-import org.photonvision.targeting.PhotonPipelineResult;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.DriveConstants.PIDConsts.Drive;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.DriveSubsystem.MODE;
 
 public class AimToBall extends CommandBase {
     private DriveSubsystem m_subsystem;
     private boolean m_finished = false;
-    
+
     final double LINEAR_P = 0.1;
 
     final double LINEAR_D = 0.0;
 
     PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
 
-    final double ANGULAR_P = 0.1;
+    final double ANGULAR_P = 0.5;//SmartDashboard.getNumber("Angular Pos", 0.1);
 
     final double ANGULAR_D = 0.0;
 
     PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
     private NetworkTable table;
 
+    GenericHID controller;
+
     /**
      * Creates a new ExampleCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public AimToBall(DriveSubsystem subsystem) {
+    public AimToBall(DriveSubsystem subsystem, GenericHID driveController) {
         m_subsystem = subsystem;
         m_finished = true;
+        controller = driveController;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
@@ -58,14 +62,21 @@ public class AimToBall extends CommandBase {
     public void execute() {
         m_finished = false;
         NetworkTableEntry xEntry = table.getEntry("best_blue_x");
-        NetworkTableEntry widthEntry = table.getEntry("width"); 
-        if (xEntry.getNumber(Integer.valueOf(0)) != Integer.valueOf(0)) { 
-            Integer width = (Integer) widthEntry.getNumber(Integer.valueOf(0));
-            Integer best_target_x = (Integer) xEntry.getNumber(0);
-            int error = best_target_x - width/2;
-            double turnSpeed = turnController.calculate(error, 0);
-
-            m_subsystem.drive(0.0, turnSpeed);
+        System.out.println(xEntry);
+        NetworkTableEntry widthEntry = table.getEntry("width");
+        if ((Double) xEntry.getNumber(Double.valueOf(0.0)) > Double.valueOf(1.0)) {
+            Double width = (Double) widthEntry.getNumber(Double.valueOf(0));
+            Double best_target_x = (Double) xEntry.getNumber(0);
+            System.out.println(best_target_x);
+            double error = best_target_x - width / 2.0;
+            if (Math.abs(error) > 10) {
+                System.out.println(error);
+                // error = error / 160.0;
+                double turnSpeed = turnController.calculate(error, 0);
+                turnSpeed = turnSpeed*(1.0/160.0)*0.5;
+                SmartDashboard.putNumber("turnSpeed", turnSpeed);
+                m_subsystem.drive(controller.getRawAxis(1) >0.1 || controller.getRawAxis(1) < -0.1 ? -controller.getRawAxis(1):0.0, turnSpeed);
+            }
 
         }
     }
