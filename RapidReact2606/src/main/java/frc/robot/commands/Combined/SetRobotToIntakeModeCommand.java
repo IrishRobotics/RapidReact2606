@@ -1,6 +1,8 @@
-package frc.robot.commands;
+package frc.robot.commands.Combined;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Indexer.SetIndexerMode;
+import frc.robot.commands.Intake.SetIntakeMode;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 

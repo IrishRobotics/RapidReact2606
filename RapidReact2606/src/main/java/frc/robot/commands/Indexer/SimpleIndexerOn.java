@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Indexer;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -31,9 +31,9 @@ public class SimpleIndexerOn extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_subsystem.setMode(MODE.OFF);
-        m_subsystem.setMotor(MOTOR.OFF);
-        m_subsystem.updateMotors();
+        // m_subsystem.setMode(MODE.OFF);
+        // m_subsystem.setMotor(MOTOR.OFF);
+        // m_subsystem.updateMotors();
     }
 
     // Returns true when the command should end.

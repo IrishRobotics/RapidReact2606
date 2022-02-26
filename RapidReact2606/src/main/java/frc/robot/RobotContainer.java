@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import frc.robot.Constants.IOConstants;
+import frc.robot.commands.Auto.OneBallAuto;
 import frc.robot.commands.AimToBall;
 import frc.robot.commands.AutoDriveBack;
 import frc.robot.commands.SimpleIndexerOn;
@@ -94,8 +95,6 @@ public class RobotContainer {
 
     a_button.whileHeld(new SimpleIntakeOn(intakeSystem));
     y_button.toggleWhenPressed(new SimpleShooterOn(shooterSubsystem));
-    x_button.whileHeld(new SimpleIndexerOn(indexSubsystem));
-
     left_bumper.whileHeld(new AimToBall(robotDrive));
   }
 
@@ -107,7 +106,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     // return ExampleCommand;cdcd
-    Command auto = new AutoDriveBack(robotDrive, 0.5);
-    return auto.andThen(() -> robotDrive.stop());
+    return new OneBallAuto(shooterSubsystem, indexSubsystem);
   }
 }

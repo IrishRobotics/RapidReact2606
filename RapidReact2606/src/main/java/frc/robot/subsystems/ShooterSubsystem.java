@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.Shooter.isShooterUpToSpeed;
 
 public class ShooterSubsystem extends SubsystemBase {
   CANSparkMax shooter = new CANSparkMax(ShooterConstants.shooterCan, MotorType.kBrushless);
@@ -57,6 +58,7 @@ public class ShooterSubsystem extends SubsystemBase {
     //updateMotorsProp();
     updateMotorsVel();
     SmartDashboard.putNumber("Encoder Vel", shootEncoder.getVelocity());
+      SmartDashboard.putBoolean("Is Up to Speed", isUpToSpeed());
   }
 
   public void updateMotorsProp() {
@@ -81,6 +83,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setMode(MOTOR_STATUS mode) {
     motorState = mode;
+  }
+
+  public boolean isUpToSpeed(){
+    return shootEncoder.getVelocity() < -5250;
   }
 
   @Override
