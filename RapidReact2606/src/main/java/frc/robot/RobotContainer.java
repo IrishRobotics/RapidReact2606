@@ -6,20 +6,18 @@ package frc.robot;
 
 import java.sql.Driver;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import frc.robot.Constants.IOConstants;
 import frc.robot.commands.Auto.OneBallAuto;
-import frc.robot.commands.AimToBall;
-import frc.robot.commands.AutoDriveBack;
-import frc.robot.commands.SimpleIndexerOn;
-import frc.robot.commands.SimpleIntakeOn;
-import frc.robot.commands.SimpleIntakeOnVar;
-import frc.robot.commands.SimpleShooterOn;
+import frc.robot.commands.Auto.AimToBall;
+import frc.robot.commands.Auto.AutoDriveBack;
+import frc.robot.commands.Indexer.SimpleIndexerOn;
+import frc.robot.commands.Intake.SimpleIntakeOn;
+import frc.robot.commands.Intake.SimpleIntakeOnVar;
+import frc.robot.commands.Shooter.SimpleShooterOn;
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -55,7 +53,6 @@ public class RobotContainer {
   private JoystickButton x_button = null;
   private JoystickButton y_button = null;
   private JoystickButton left_bumper;
-  private Axis r_trigger;
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -91,9 +88,10 @@ public class RobotContainer {
     x_button = new JoystickButton(driveController, XboxController.Button.kX.value);
     y_button = new JoystickButton(driveController, XboxController.Button.kY.value);
 
-    left_bumper = new JoystickButton(driveController, XboxController.Button.kY.value);
+    left_bumper = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
 
     a_button.whileHeld(new SimpleIntakeOn(intakeSystem));
+    x_button.whenHeld(new SimpleIndexerOn(indexSubsystem));
     y_button.toggleWhenPressed(new SimpleShooterOn(shooterSubsystem));
     left_bumper.whileHeld(new AimToBall(robotDrive));
   }
