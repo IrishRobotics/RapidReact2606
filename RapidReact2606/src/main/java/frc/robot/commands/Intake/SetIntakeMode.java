@@ -1,12 +1,12 @@
-package frc.robot.commands;
+package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ShooterSubsystem.MOTOR_STATUS;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.MOTOR_STATUS;
 
-public class SetShooterMode extends CommandBase {
+public class SetIntakeMode extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private final ShooterSubsystem m_subsystem;
+    private final IntakeSubsystem m_subsystem;
     private MOTOR_STATUS setStatus;
     private boolean finished;
   
@@ -15,7 +15,7 @@ public class SetShooterMode extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public SetShooterMode(ShooterSubsystem subsystem, ShooterSubsystem.MOTOR_STATUS status) {
+    public SetIntakeMode(IntakeSubsystem subsystem, IntakeSubsystem.MOTOR_STATUS status) {
       m_subsystem = subsystem;
       // Use addRequirements() here to declare subsystem dependencies.
       addRequirements(subsystem);
@@ -32,7 +32,7 @@ public class SetShooterMode extends CommandBase {
     @Override
     public void execute() {
         m_subsystem.setMode(setStatus);
-        m_subsystem.updateMotorsVel();
+        m_subsystem.updateMotors();
         finished=true;
     }
   
