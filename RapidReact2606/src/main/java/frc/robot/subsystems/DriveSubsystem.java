@@ -63,7 +63,6 @@ public class DriveSubsystem extends SubsystemBase {
         leftMotorBack.follow(leftMotorFront);
         rightMotorBack.follow(rightMotorFront);
     }
-
     //Robots Drive  
     private final DifferentialDrive drive = new DifferentialDrive(leftMotorFront, rightMotorFront);
 
@@ -410,4 +409,7 @@ public class DriveSubsystem extends SubsystemBase {
         }
 
     }
+    public Object stop() {
+        return null;
+      }
 }
