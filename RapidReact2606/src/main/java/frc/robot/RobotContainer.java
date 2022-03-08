@@ -14,12 +14,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import frc.robot.Constants.IOConstants;
 import frc.robot.commands.Auto.OneBallAuto;
+import frc.robot.commands.Intake.SimpleIntakeOn;
+import frc.robot.commands.Shooter.SimpleShooterOn;
 import frc.robot.commands.AimToBall;
-import frc.robot.commands.AutoDriveBack;
-import frc.robot.commands.SimpleIndexerOn;
-import frc.robot.commands.SimpleIntakeOn;
-import frc.robot.commands.SimpleIntakeOnVar;
-import frc.robot.commands.SimpleShooterOn;
+
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -44,7 +42,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem robotDrive = new DriveSubsystem();
   private final IntakeSubsystem intakeSystem = new IntakeSubsystem();
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(robotDrive.getCamera());
   private final IndexerSubsystem indexSubsystem = new IndexerSubsystem();
 
 
