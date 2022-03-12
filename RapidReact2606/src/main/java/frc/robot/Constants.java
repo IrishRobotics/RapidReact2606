@@ -102,6 +102,7 @@ public final class Constants {
         
         //Sim Position
         public static final org.photonvision.SimVisionTarget farTarget = new SimVisionTarget(farTargetPose,targetHeightAboveGround, targetWidth, targetHeight);
+        public static final double cameraHeight = .5;
     }
     public static final class IndexerConstants{
         public static final int firstDIO = 11;

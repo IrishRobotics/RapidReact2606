@@ -10,18 +10,28 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonPipelineResult;
+
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.commands.Shooter.isShooterUpToSpeed;
+import frc.robot.Constants.VisionConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
+  /**
+   *
+   */
+  private static final int shooterTolerance = 50;
+
   CANSparkMax shooter = new CANSparkMax(ShooterConstants.shooterCan, MotorType.kBrushless);
-  
+
   RelativeEncoder shootEncoder;
   SparkMaxPIDController pidController;
   public double kP, kI, kD, KIz, kFF, kMaxOutput, kMinOutput, maxRPM;
-
+  private PhotonCamera camera;
 
   public enum MOTOR_STATUS {
     ON, OFF
@@ -30,12 +40,13 @@ public class ShooterSubsystem extends SubsystemBase {
   MOTOR_STATUS motorState = MOTOR_STATUS.OFF;
 
   /** Creates a new ExampleSubsystem. */
-  public ShooterSubsystem() {
+  public ShooterSubsystem(PhotonCamera cam) {
     shooter.setIdleMode(IdleMode.kCoast);
     shootEncoder = shooter.getEncoder();
     pidController = shooter.getPIDController();
+    camera = cam;
 
-    //PID coefficients
+    // PID coefficients
     kP = 6e-5;
     kI = 0;
     kD = 0;
@@ -45,8 +56,8 @@ public class ShooterSubsystem extends SubsystemBase {
     kMinOutput = -1;
     maxRPM = 5700;
 
-    pidController.setP(kP); //position
-    pidController.setI(kI); //Integral
+    pidController.setP(kP); // position
+    pidController.setI(kI); // Integral
     pidController.setD(kD); // Derivitive
     pidController.setIZone(KIz); // INtegral zone
     pidController.setFF(kFF); // feed forward gain value
@@ -55,10 +66,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //updateMotorsProp();
+    // updateMotorsProp();
     updateMotorsVel();
     SmartDashboard.putNumber("Encoder Vel", shootEncoder.getVelocity());
-      SmartDashboard.putBoolean("Is Up to Speed", isUpToSpeed());
+    SmartDashboard.putBoolean("Is Up to Speed", isUpToSpeed());
   }
 
   public void updateMotorsProp() {
@@ -69,24 +80,33 @@ public class ShooterSubsystem extends SubsystemBase {
     }
   }
 
-  public void updateMotorsVel(){
-    if(motorState == MOTOR_STATUS.OFF){
+  public void updateMotorsVel() {
+    if (motorState == MOTOR_STATUS.OFF) {
       shooter.set(0.0);
-    }
-    else{
-      pidController.setReference(5000*-4.284*ShooterConstants.shootSpeed, CANSparkMax.ControlType.kVelocity);
+    } else {
+      pidController.setReference(getSpeedTarget(), CANSparkMax.ControlType.kVelocity);
     }
   }
 
+  public double getSpeedTarget() {
+    PhotonPipelineResult result = camera.getLatestResult();
+    double speed = 5000 * -4.284 * ShooterConstants.shootSpeed;
 
-  
+    if (result.hasTargets()) {
+      double range = PhotonUtils.calculateDistanceToTargetMeters(VisionConstants.cameraHeight, VisionConstants.targetHeight, 0, Units.degreesToRadians(result.getBestTarget().getPitch()));
+      //vary speed based on range
+      speed =  5000 * -4.284 * ShooterConstants.shootSpeed;
+    } 
+
+    return speed;
+  }
 
   public void setMode(MOTOR_STATUS mode) {
     motorState = mode;
   }
 
-  public boolean isUpToSpeed(){
-    return shootEncoder.getVelocity() < -5250;
+  public boolean isUpToSpeed() {
+    return Math.abs(shootEncoder.getVelocity() - getSpeedTarget()) < shooterTolerance;
   }
 
   @Override
