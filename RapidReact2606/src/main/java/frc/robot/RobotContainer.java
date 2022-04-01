@@ -6,18 +6,23 @@ package frc.robot;
 
 import java.sql.Driver;
 
+import javax.xml.crypto.dsig.XMLObject;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import frc.robot.Constants.IOConstants;
 import frc.robot.commands.Auto.OneBallAuto;
+import frc.robot.commands.Climber.ClimbDown;
+import frc.robot.commands.Climber.ClimbUp;
 import frc.robot.commands.Auto.AimToBall;
 import frc.robot.commands.Auto.AutoDriveBack;
 import frc.robot.commands.Indexer.SimpleIndexerOn;
 import frc.robot.commands.Intake.SimpleIntakeOn;
 import frc.robot.commands.Intake.SimpleIntakeOnVar;
 import frc.robot.commands.Shooter.SimpleShooterOn;
+import frc.robot.subsystems.ClimbSubsystem;
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -44,7 +49,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSystem = new IntakeSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final IndexerSubsystem indexSubsystem = new IndexerSubsystem();
-
+  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
 
   private GenericHID driveController = IOConstants.isXbox ? new XboxController(IOConstants.DriverControllerPort) : new Joystick(IOConstants.DriverControllerPort); 
@@ -52,7 +57,10 @@ public class RobotContainer {
   private JoystickButton b_button = null;
   private JoystickButton x_button = null;
   private JoystickButton y_button = null;
-  private JoystickButton left_bumper;
+  // private JoystickButton dUp_Button = null;
+  // private JoystickButton dDown_Button = null;
+  private JoystickButton left_bumper; 
+  private JoystickButton right_bumper;
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -88,9 +96,15 @@ public class RobotContainer {
     x_button = new JoystickButton(driveController, XboxController.Button.kX.value);
     y_button = new JoystickButton(driveController, XboxController.Button.kY.value);
 
+    
+
+
     left_bumper = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
+    right_bumper = new JoystickButton(driveController, XboxController.Button.kRightBumper.value);
 
     a_button.whileHeld(new SimpleIntakeOn(intakeSystem));
+    b_button.whileHeld(new ClimbDown(climbSubsystem));
+    right_bumper.whileHeld(new ClimbUp(climbSubsystem));
     x_button.whenHeld(new SimpleIndexerOn(indexSubsystem));
     y_button.toggleWhenPressed(new SimpleShooterOn(shooterSubsystem));
     left_bumper.whileHeld(new AimToBall(robotDrive,driveController));
