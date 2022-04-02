@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController.Axis;
 import frc.robot.Constants.IOConstants;
 import frc.robot.commands.Auto.OneBallAuto;
 import frc.robot.commands.Auto.AimToBall;
+import frc.robot.commands.Auto.AimToTarget;
 import frc.robot.commands.Auto.AutoDriveBack;
 import frc.robot.commands.Indexer.SimpleIndexerOn;
 import frc.robot.commands.Intake.SimpleIntakeOn;
@@ -33,9 +34,12 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 // import edu.wpi.first.wpilibj.GenericHID;
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
@@ -45,19 +49,19 @@ public class RobotContainer {
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final IndexerSubsystem indexSubsystem = new IndexerSubsystem();
 
-
-
-  private GenericHID driveController = IOConstants.isXbox ? new XboxController(IOConstants.DriverControllerPort) : new Joystick(IOConstants.DriverControllerPort); 
+  private GenericHID driveController = IOConstants.isXbox ? new XboxController(IOConstants.DriverControllerPort)
+      : new Joystick(IOConstants.DriverControllerPort);
   private JoystickButton a_button = null;
   private JoystickButton b_button = null;
   private JoystickButton x_button = null;
   private JoystickButton y_button = null;
   private JoystickButton left_bumper;
-  
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  private JoystickButton right_bumper;
+
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
-    //Drive Controller
-    // Configure the button bindings
     configureButtonBindings();
 
     robotDrive.setDefaultCommand( 
@@ -65,21 +69,21 @@ public class RobotContainer {
       (new RunCommand(
         () -> 
              robotDrive.drive(
-              -(Math.abs(driveController.getRawAxis(1)) >0.1? driveController.getRawAxis(1):0.0),
-              -(Math.abs(driveController.getRawAxis(0)) >0.1? driveController.getRawAxis(0):0.0)),
+              -(Math.abs(driveController.getRawAxis(0)) >0.1? driveController.getRawAxis(0):0.0),
+              -(Math.abs(driveController.getRawAxis(1)) >0.1? driveController.getRawAxis(1):0.0)),
                robotDrive))
                
                //.alongWith(new SimpleIntakeOnVar(intakeSystem, (driveController.getRawAxis(3)))
     
     
     );
-               //new SimpleIntakeOnVar(intakeSystem, (driveController.getRawAxis(3)))
   }
-
   /**
-   * Use this method to define your button->command mappings. Buttons can be created by
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+   * it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
@@ -89,11 +93,14 @@ public class RobotContainer {
     y_button = new JoystickButton(driveController, XboxController.Button.kY.value);
 
     left_bumper = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
+    right_bumper = new JoystickButton(driveController, XboxController.Button.kRightBumper.value);
 
     a_button.whileHeld(new SimpleIntakeOn(intakeSystem));
     x_button.whenHeld(new SimpleIndexerOn(indexSubsystem));
     y_button.toggleWhenPressed(new SimpleShooterOn(shooterSubsystem));
-    left_bumper.whileHeld(new AimToBall(robotDrive,driveController));
+
+    left_bumper.whileHeld(new AimToTarget(robotDrive));
+    right_bumper.whileHeld(new AimToBall(robotDrive, driveController));
   }
 
   /**

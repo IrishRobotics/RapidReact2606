@@ -118,4 +118,40 @@ public final class Constants {
     public static final class IntakeConstants{
         public static final int intakeCan = 1;
     }
+
+    public static final class Vision{
+        public static final double targetWidth =
+
+            Units.inchesToMeters(41.30) - Units.inchesToMeters(6.70); // meters
+
+            // See
+
+            // https://firstfrc.blob.core.windows.net/frc2020/PlayingField/2020FieldDrawing-SeasonSpecific.pdf
+
+            // page 197
+
+            public static final double targetHeight =
+
+                    Units.inchesToMeters(50.5) - Units.inchesToMeters(10.5); // meters
+
+            public static final double targetHeightAboveGround = Units.inchesToMeters(81.19); // meters
+
+            // See
+            // https://firstfrc.blob.core.windows.net/frc2020/PlayingField/LayoutandMarkingDiagram.pdf
+
+            // pages 4 and 5
+
+            public static final double kFarTgtXPos = 1;
+
+            public static final String kCamName = "targetCam";
+            public static final Translation2d translation = new Translation2d(.5, 0);
+            public static final Rotation2d rotation = new Rotation2d(0.0);
+            public static final Transform2d kCameraToRobot = new Transform2d(translation, rotation);
+    }
+
+    public static final double kTurnRateToleranceDegPerS = 10;
+    public static final double kTurnToleranceDeg = 5;
+    public static final double kTurnP = 0.01;
+    public static final double kTurnI = 0;
+    public static final double kTurnD = 0.0001;
 }
