@@ -44,7 +44,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.VisionConstants;
-
+import frc.robot.Constants;
 import frc.robot.Robot;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -119,7 +119,7 @@ public class DriveSubsystem extends SubsystemBase {
     private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(DriveConstants.mgStatic, DriveConstants.mgVelocity); // 
 
     //Vision
-    private PhotonCamera cam = new PhotonCamera(VisionConstants.camName);
+    private PhotonCamera cam = new PhotonCamera(Constants.Vision.kCamName);
 
     // simulation classes
     private final AnalogGyroSim gyroSim = new AnalogGyroSim(gyro);
@@ -334,7 +334,14 @@ public class DriveSubsystem extends SubsystemBase {
     public void setMaxOutput(double maxOutput){
         drive.setMaxOutput(maxOutput);
     }
-    
+    /**
+     * 
+     * @param m mode
+     */
+    public void setMode(MODE m){
+        mode = m;
+    }
+
     /**@param speeds wheel speed */
     public void setSpeeds(DifferentialDriveWheelSpeeds speeds) {
         var leftFeedforward = feedforward.calculate(speeds.leftMetersPerSecond);

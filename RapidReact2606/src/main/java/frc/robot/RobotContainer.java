@@ -17,6 +17,7 @@ import frc.robot.commands.Auto.OneBallAuto;
 import frc.robot.commands.Climber.ClimbDown;
 import frc.robot.commands.Climber.ClimbUp;
 import frc.robot.commands.Auto.AimToBall;
+import frc.robot.commands.Auto.AimToTarget;
 import frc.robot.commands.Auto.AutoDriveBack;
 import frc.robot.commands.Indexer.SimpleIndexerOn;
 import frc.robot.commands.Intake.SimpleIntakeOn;
@@ -107,6 +108,7 @@ public class RobotContainer {
     right_bumper.whileHeld(new ClimbUp(climbSubsystem));
     x_button.whenHeld(new SimpleIndexerOn(indexSubsystem));
     y_button.toggleWhenPressed(new SimpleShooterOn(shooterSubsystem));
+    b_button.whileHeld(new AimToTarget(robotDrive));
     left_bumper.whileHeld(new AimToBall(robotDrive,driveController));
   }
 

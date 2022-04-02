@@ -118,7 +118,50 @@ public final class Constants {
     public static final class IntakeConstants{
         public static final int intakeCan = 1;
     }
+
     public static final class ClimbConstants{
         public static final int climbCan = 16;
+    }
+
+    public static final class Vision{
+        public static final double targetWidth =
+
+            Units.inchesToMeters(41.30) - Units.inchesToMeters(6.70); // meters
+
+            // See
+
+            // https://firstfrc.blob.core.windows.net/frc2020/PlayingField/2020FieldDrawing-SeasonSpecific.pdf
+
+            // page 197
+
+            public static final double targetHeight =
+
+                    Units.inchesToMeters(98.19) - Units.inchesToMeters(81.19); // meters
+
+            public static final double targetHeightAboveGround = Units.inchesToMeters(81.19); // meters
+
+            // See
+            // https://firstfrc.blob.core.windows.net/frc2020/PlayingField/LayoutandMarkingDiagram.pdf
+
+            // pages 4 and 5
+
+            public static final double kFarTgtXPos = Units.feetToMeters(54);
+
+            public static final double kFarTgtYPos =
+
+                    Units.feetToMeters(27 / 2) - Units.inchesToMeters(43.75) - Units.inchesToMeters(48.0 / 2.0);
+
+            public static final Pose2d kFarTargetPose =
+
+                    new Pose2d(new Translation2d(kFarTgtXPos, kFarTgtYPos), new Rotation2d(0.0));
+
+            public static final org.photonvision.SimVisionTarget kFarTarget = new SimVisionTarget(kFarTargetPose,
+                    targetHeightAboveGround, targetWidth, targetHeight);
+
+            public static final String kCamName = "video";
+            public static final Translation2d translation = new Translation2d(.5, 0);
+            public static final Rotation2d rotation = new Rotation2d(0.0);
+            public static final Transform2d kCameraToRobot = new Transform2d(translation, rotation);
+
     }
 }
