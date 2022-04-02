@@ -13,6 +13,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 // import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 // import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,13 +27,13 @@ public class AimToBall extends CommandBase {
     private IntakeSubsystem intakeSubsystem;
     private boolean m_finished = false;
 
-    final double LINEAR_P = 0.1;
+    final double LINEAR_P = 0.6;
 
     final double LINEAR_D = 0.0;
 
     PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
 
-    final double ANGULAR_P = 0.6;// SmartDashboard.getNumber("Angular Pos", 0.1);
+    final double ANGULAR_P = 0.1;// SmartDashboard.getNumber("Angular Pos", 0.1);
 
     final double ANGULAR_D = 0.01;
 
@@ -112,17 +113,18 @@ public class AimToBall extends CommandBase {
                 // error = error / 160.0;
                 turnSpeed = turnController.calculate(errorAng, 0);
                 turnSpeed = turnSpeed * (1.0 / 160.0) * 0.5;
-                SmartDashboard.putNumber("turnSpeed", turnSpeed);
             }
         }
         if ((Double) sizeEntry.getNumber(Double.valueOf(0.0)) > Double.valueOf(1.0)) {
             Double size = (Double) sizeEntry.getNumber(Double.valueOf(0));
             if(Math.abs(size-28000) > 1500){
                 double errorLin = size - 28000;
-                linearSpeed = forwardController.calculate(errorLin/4000.0, 0.0);
+                linearSpeed = forwardController.calculate(errorLin/12000.0, 0.0);
             }
         }
         //m_subsystem.drive(linearSpeed, -turnSpeed);
-        m_subsystem.drive(linearSpeed,-turnSpeed);
+        SmartDashboard.putNumber("linear Speed", linearSpeed);
+        SmartDashboard.putNumber("turnSpeed", turnSpeed);
+        m_subsystem.drive(linearSpeed,turnSpeed);
     }
 }

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import frc.robot.Constants.IOConstants;
 import frc.robot.commands.Auto.OneBallAuto;
+import frc.robot.commands.Climber.ClimbDown;
 import frc.robot.commands.Climber.ClimbUp;
 import frc.robot.commands.Auto.AimToBall;
 import frc.robot.commands.Auto.AimToTarget;
@@ -31,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -48,7 +50,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem robotDrive = new DriveSubsystem();
   private final IntakeSubsystem intakeSystem = new IntakeSubsystem();
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(robotDrive.getCamera());
   private final IndexerSubsystem indexSubsystem = new IndexerSubsystem();
   private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
@@ -60,6 +62,8 @@ public class RobotContainer {
   private JoystickButton y_button = null;
   private JoystickButton left_bumper;
   private JoystickButton right_bumper;
+  private POVButton dUp = null;
+  private POVButton dDown = null;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -72,8 +76,8 @@ public class RobotContainer {
       (new RunCommand(
         () -> 
              robotDrive.drive(
-              (Math.abs(driveController.getRawAxis(1)) >0.1? driveController.getRawAxis(0):0.0),
-              -(Math.abs(driveController.getRawAxis(0)) >0.1? driveController.getRawAxis(1):0.0)),
+              -(Math.abs(driveController.getRawAxis(1)) >0.05? driveController.getRawAxis(1):0.0),
+              (Math.abs(driveController.getRawAxis(0)) >0.05? driveController.getRawAxis(0):0.0)),
                robotDrive))
                
                //.alongWith(new SimpleIntakeOnVar(intakeSystem, (driveController.getRawAxis(3)))
@@ -94,6 +98,9 @@ public class RobotContainer {
     b_button = new JoystickButton(driveController, XboxController.Button.kB.value);
     x_button = new JoystickButton(driveController, XboxController.Button.kX.value);
     y_button = new JoystickButton(driveController, XboxController.Button.kY.value);
+    dUp = new POVButton(driveController, 0);
+    dDown = new POVButton(driveController, 180);
+
 
     left_bumper = new JoystickButton(driveController, XboxController.Button.kLeftBumper.value);
     right_bumper = new JoystickButton(driveController, XboxController.Button.kRightBumper.value);
@@ -104,6 +111,8 @@ public class RobotContainer {
 
     left_bumper.whileHeld(new AimToTarget(robotDrive));
     right_bumper.whileHeld(new AimToBall(robotDrive, driveController, intakeSystem));
+    dUp.whileHeld(new ClimbUp(climbSubsystem));
+    dDown.whileHeld(new ClimbDown(climbSubsystem));
   }
 
   /**

@@ -62,8 +62,12 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotorBack.follow(leftMotorFront);
     rightMotorBack.follow(rightMotorFront);
 
+    
+    
     m_robotDrive = new DifferentialDrive(leftMotorFront, rightMotorFront);
-
+    
+    rightMotorFront.setInverted(true);
+    rightMotorBack.setInverted(true);
   }
 
   public DriveSubsystem() {

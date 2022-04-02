@@ -18,8 +18,8 @@ public class AimToTarget extends CommandBase{
     final double LINEAR_D = 0;
     PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
 
-    final double ANGULAR_P = 0.7;
-    final double ANGULAR_D = 0;
+    final double ANGULAR_P = 0.35;
+    final double ANGULAR_D = 0.02;
     PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
     double targetRange = Constants.Vision.kFarTgtXPos;
 
@@ -66,7 +66,7 @@ public class AimToTarget extends CommandBase{
  
                             Units.inchesToMeters(42),
  
-                             Constants.Vision.targetHeight,
+                             Constants.Vision.targetHeightAboveGround,
  
                              Units.degreesToRadians(45),
  
