@@ -1,11 +1,11 @@
 package frc.robot.commands.Auto;
 
-import java.util.Iterator;
+// import java.util.Iterator;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+// import com.fasterxml.jackson.core.JsonProcessingException;
+// import com.fasterxml.jackson.databind.JsonNode;
+// import com.fasterxml.jackson.databind.ObjectMapper;
+// import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
@@ -13,14 +13,17 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+// import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.MOTOR_STATUS;
 
 public class AimToBall extends CommandBase {
     private DriveSubsystem m_subsystem;
+    private IntakeSubsystem intakeSubsystem;
     private boolean m_finished = false;
 
     final double LINEAR_P = 0.1;
@@ -43,16 +46,20 @@ public class AimToBall extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public AimToBall(DriveSubsystem subsystem) {
+    public AimToBall(DriveSubsystem subsystem, IntakeSubsystem intakeSub) {
         m_subsystem = subsystem;
+        intakeSubsystem = intakeSub;
+
         m_finished = true;
         
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
 
-    public AimToBall(DriveSubsystem robotDrive, GenericHID driveController) {
+    public AimToBall(DriveSubsystem robotDrive, GenericHID driveController, IntakeSubsystem intakeSub) {
         m_subsystem = robotDrive;
+        intakeSubsystem = intakeSub;
+        
         m_finished = true;
         
         // Use addRequirements() here to declare subsystem dependencies.
@@ -64,6 +71,8 @@ public class AimToBall extends CommandBase {
         System.out.println("Aiming to Ball");
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         table = inst.getTable("ML");
+        intakeSubsystem.setMode(MOTOR_STATUS.ON);
+        intakeSubsystem.updateMotors();
     }
 
     @Override
@@ -71,9 +80,19 @@ public class AimToBall extends CommandBase {
         return m_finished;
     }
 
+    @Override
+    public void end(boolean interrupted){
+        intakeSubsystem.setMode(MOTOR_STATUS.OFF);
+        intakeSubsystem.updateMotors();
+    }
+
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        //Update intake
+        intakeSubsystem.updateMotors();
+
+        //Find and Update Movement
         isBlue = DriverStation.getAlliance() == DriverStation.Alliance.Blue;
         m_finished = false;
         NetworkTableEntry xEntry = table.getEntry(isBlue ? "best_blue_x" : "best_red_x");
@@ -104,6 +123,6 @@ public class AimToBall extends CommandBase {
             }
         }
         //m_subsystem.drive(linearSpeed, -turnSpeed);
-        m_subsystem.drive(turnSpeed,linearSpeed);
+        m_subsystem.drive(linearSpeed,-turnSpeed);
     }
 }

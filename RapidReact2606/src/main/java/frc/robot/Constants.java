@@ -104,9 +104,9 @@ public final class Constants {
         public static final org.photonvision.SimVisionTarget farTarget = new SimVisionTarget(farTargetPose,targetHeightAboveGround, targetWidth, targetHeight);
     }
     public static final class IndexerConstants{
-        public static final int firstDIO = 11;
-        public static final int middleDIO = 12;
-        public static final int lastDIO = 13;
+        public static final int firstDIO = 6;
+        public static final int middleDIO = 7;
+        public static final int lastDIO = 8;
         public static final int motorControllerPort = 9;
     }
 
@@ -117,6 +117,9 @@ public final class Constants {
     }
     public static final class IntakeConstants{
         public static final int intakeCan = 1;
+    }
+    public static final class ClimbConstants{
+        public static final int climbCan = 16;
     }
 
     public static final class Vision{

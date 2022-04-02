@@ -41,6 +41,8 @@ public class DriveSubsystem extends SubsystemBase {
     VictorSP rightMotorFront = new VictorSP(0);
     VictorSP rightMotorBack = new VictorSP(1);
 
+    rightMotorFront.setInverted(true);
+
     MotorControllerGroup rightMotors = new MotorControllerGroup(rightMotorFront, rightMotorBack);
     MotorControllerGroup leftMotors = new MotorControllerGroup(leftMotorFront, leftMotorBack);
 
@@ -83,7 +85,7 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  public void drive(double d, double e) {
-    m_robotDrive.arcadeDrive(-d, e, false);
+  public void drive(double x, double z) {
+    m_robotDrive.arcadeDrive(x, z, false);
   }
 }
