@@ -1,32 +1,36 @@
 package frc.robot.commands.Auto;
 
+import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class AutoDriveBack extends CommandBase{
     public final DriveSubsystem drive;
-    private double timeOut, timeToRun;
-
-    public AutoDriveBack(DriveSubsystem robotDrive, double timeToRun){
+    private int cnt, end;
+    
+    public AutoDriveBack(DriveSubsystem robotDrive){
         drive = robotDrive;
-        
+        end = (int) Math.round(0.25*(1.0/0.02));
+        addRequirements(robotDrive);
+    }
+
+    public AutoDriveBack(DriveSubsystem robotDrive, double seconds){
+        drive = robotDrive;
+        end = (int) Math.round(seconds*(1.0/0.02));
         addRequirements(robotDrive);
     }
     
     @Override
     public void initialize(){
-        timeOut = System.currentTimeMillis() + timeToRun*1000;
+        cnt = 0;
         
     }
-
+    
+    //20ms
     @Override
     public void execute(){
-        if(System.currentTimeMillis() > timeOut){
-            drive.drive(0.0, 0.0);
-        }
-        else{
-            drive.drive(-1.0, 0.0);
-        }
+        cnt++;
+        drive.drive(-0.5,0.0);
     }
 
     @Override
@@ -35,6 +39,6 @@ public class AutoDriveBack extends CommandBase{
     }
     @Override
     public boolean isFinished(){
-        return System.currentTimeMillis() > timeOut;
+        return cnt > end;
     }
 }

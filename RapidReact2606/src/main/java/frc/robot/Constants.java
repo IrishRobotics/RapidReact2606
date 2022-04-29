@@ -113,7 +113,7 @@ public final class Constants {
 
     public static final class ShooterConstants{
         public static final int shooterCan = 12;
-        public static final double shootSpeed = 0.8;
+        public static final double shootSpeed = 0.5;
         public static final double coastSpeed = 0.1;
     }
     public static final class IntakeConstants{
@@ -138,7 +138,7 @@ public final class Constants {
 
                     Units.inchesToMeters(50.5) - Units.inchesToMeters(10.5); // meters
 
-            public static final double targetHeightAboveGround = Units.inchesToMeters(81.19); // meters
+            public static final double targetHeightAboveGround = Units.inchesToMeters(104); // meters
 
             // See
             // https://firstfrc.blob.core.windows.net/frc2020/PlayingField/LayoutandMarkingDiagram.pdf

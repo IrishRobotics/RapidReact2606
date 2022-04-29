@@ -40,10 +40,10 @@ public class ClimbSubsystem extends SubsystemBase {
           climbMotor.set(0.0);
         break;
         case UP:
-          climbMotor.set(0.85);
+          climbMotor.set(1.0);
         break;
         case DOWN:
-          climbMotor.set(-0.85);
+          climbMotor.set(-1.0);
         break;
         default:
           climbMotor.set(0.0);

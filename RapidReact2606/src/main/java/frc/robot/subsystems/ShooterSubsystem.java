@@ -77,7 +77,7 @@ public class ShooterSubsystem extends SubsystemBase {
     if (motorState == MOTOR_STATUS.OFF) {
       shooter.set(0.0);
     } else {
-      shooter.set(-0.8);
+      shooter.set(-0.5);
     }
   }
 

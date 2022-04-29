@@ -17,6 +17,7 @@ import frc.robot.commands.Climber.ClimbUp;
 import frc.robot.commands.Auto.AimToBall;
 import frc.robot.commands.Auto.AimToTarget;
 import frc.robot.commands.Auto.AutoDriveBack;
+import frc.robot.commands.Auto.AutoWithTargeting;
 import frc.robot.commands.Indexer.SimpleIndexerOn;
 import frc.robot.commands.Intake.SimpleIntakeOn;
 import frc.robot.commands.Intake.SimpleIntakeOnVar;
@@ -108,6 +109,7 @@ public class RobotContainer {
     a_button.whileHeld(new SimpleIntakeOn(intakeSystem));
     x_button.whenHeld(new SimpleIndexerOn(indexSubsystem));
     y_button.toggleWhenPressed(new SimpleShooterOn(shooterSubsystem));
+    b_button.whileHeld(new OneBallAuto(shooterSubsystem, indexSubsystem));
 
     left_bumper.whileHeld(new AimToTarget(robotDrive));
     right_bumper.whileHeld(new AimToBall(robotDrive, driveController, intakeSystem));
@@ -123,6 +125,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     // return ExampleCommand;cdcd
-    return new OneBallAuto(shooterSubsystem, indexSubsystem);
+    return new AutoWithTargeting(shooterSubsystem, indexSubsystem, robotDrive);
   }
 }
